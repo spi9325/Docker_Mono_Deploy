@@ -24,6 +24,6 @@ jobs:
           context: .
           file: ./docker/Dockerfile.backend
           push: true
-          tags: sanket/todo-app-backend:${{ github.sha }}
-          
+          tags: spi9325/Docker_Mono_Deploy:${{ github.sha }}
+
 # all above code is same for most deployments and bellow change only
