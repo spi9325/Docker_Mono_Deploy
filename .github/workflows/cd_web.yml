@@ -1,0 +1,32 @@
+name: Deploy the web
+
+on:
+  push: 
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubantu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2 
+
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/Dockerfile.web
+          # your frontend use prisma client so youneed build type db utl so you pass arguments
+          build-args:
+            - DATABASE_URL=${{ secrets.DATABASE_URL }}
+          push: true
+          tags: spi9325/Docker_Mono_Deploy:${{ github.sha }}
+
+# all above code is same for most deployments and bellow change only
